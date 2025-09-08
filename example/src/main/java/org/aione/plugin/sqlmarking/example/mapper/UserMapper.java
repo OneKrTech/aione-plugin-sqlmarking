@@ -1,8 +1,8 @@
-package org.onekr.mapper;
+package org.aione.plugin.sqlmarking.example.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
-import org.onekr.entity.User;
+import org.aione.plugin.sqlmarking.example.entity.User;
 
 import java.util.List;
 

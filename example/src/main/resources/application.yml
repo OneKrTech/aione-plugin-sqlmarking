@@ -37,9 +37,9 @@ mybatis:
 
 logging:
   level:
-    org.onekr.plugin.sqlmarking: DEBUG
+    org.aione.plugin.sqlmarking: DEBUG
     org.springframework.jdbc: DEBUG
-    org.onekr: DEBUG
+    org.aione: DEBUG
     com.baomidou.mybatisplus: DEBUG
 
 server:

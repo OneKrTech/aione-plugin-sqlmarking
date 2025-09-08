@@ -1,4 +1,4 @@
-package org.onekr.plugin.sqlmarking.mybatis;
+package org.aione.plugin.sqlmarking.example.plugin.sqlmarking;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,6 @@ import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
-import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicLong;
 

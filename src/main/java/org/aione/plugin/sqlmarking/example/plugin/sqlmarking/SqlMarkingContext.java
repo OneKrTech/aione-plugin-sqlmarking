@@ -1,9 +1,8 @@
-package org.onekr.plugin.sqlmarking.mybatis;
+package org.aione.plugin.sqlmarking.example.plugin.sqlmarking;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

@@ -1,7 +1,6 @@
-package org.onekr;
+package org.aione.plugin.sqlmarking.example;
 
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -12,12 +11,9 @@ import org.springframework.core.env.ConfigurableEnvironment;
  *
  * @author Billy
  */
-@SpringBootApplication(scanBasePackages = {"org.onekr"})
-@MapperScan("org.onekr.mapper")
+@SpringBootApplication(scanBasePackages = {"org.aione"})
+@MapperScan("org.aione.*.**")
 public class ExampleApplication {
-
-//    @Value("${server.port:8080}")
-//    private static int port;
 
     public static void main(String[] args) {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(ExampleApplication.class, args);

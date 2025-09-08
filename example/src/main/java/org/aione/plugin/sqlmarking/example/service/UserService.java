@@ -1,10 +1,10 @@
-package org.onekr.service;
+package org.aione.plugin.sqlmarking.example.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.onekr.entity.User;
-import org.onekr.mapper.UserMapper;
+import org.aione.plugin.sqlmarking.example.entity.User;
+import org.aione.plugin.sqlmarking.example.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

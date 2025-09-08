@@ -1,4 +1,4 @@
-package org.onekr.plugin.sqlmarking.mybatis;
+package org.aione.plugin.sqlmarking.example.plugin.sqlmarking;
 
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.ParameterMapping;

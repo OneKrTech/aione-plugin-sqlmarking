@@ -1,4 +1,4 @@
-package org.onekr.plugin.sqlmarking.mybatis;
+package org.aione.plugin.sqlmarking.example.plugin.sqlmarking;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
