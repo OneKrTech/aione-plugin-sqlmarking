@@ -66,11 +66,12 @@ public class SqlMarkingInfo {
      * @return 简化的StatementId，如果statementId为null则返回null
      */
     public String getSimpleStatementId() {
-        if (statementId == null) {
-            return null;
-        }
-        int lastDotIndex = statementId.lastIndexOf('.');
-        return lastDotIndex > 0 ? statementId.substring(lastDotIndex + 1) : statementId;
+//        if (statementId == null) {
+//            return null;
+//        }
+//        int lastDotIndex = statementId.lastIndexOf('.');
+//        return lastDotIndex > 0 ? statementId.substring(lastDotIndex + 1) : statementId;
+        return statementId;
     }
 
     /**
