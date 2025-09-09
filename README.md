@@ -272,12 +272,13 @@ CPU开销：每次SQL执行增加约 0.1-0.5ms 处理时间
 🙋‍♂️ 支持与反馈
 如果您在使用过程中遇到问题或有改进建议，请：
 
-查看 Issues 中是否已有相关问题
-创建新的 Issue 描述问题或建议
-联系维护者：billy@aione.tech
-📚 更多资源
-MyBatis Plus 官方文档
-Spring Boot 官方文档
-Apache License 2.0
-Made with ❤️ by aione Tech Team
+- 查看 Issues 中是否已有相关问题
+- 创建新的 Issue 描述问题或建议
+- 联系维护者：tech@ai-one.org
+
+📚 更多资源 
+- MyBatis Plus 官方文档
+- Spring Boot 官方文档
+- Apache License 2.0
+- Made with ❤️ by AI One Tech Team
 
