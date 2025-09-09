@@ -1,4 +1,4 @@
-package org.aione.plugin.sqlmarking.example.plugin.sqlmarking;
+package org.aione.plugin.sqlmarking;
 
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.ParameterMapping;

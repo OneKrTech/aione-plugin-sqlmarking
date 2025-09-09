@@ -1,4 +1,4 @@
-package org.aione.plugin.sqlmarking.example.plugin.sqlmarking;
+package org.aione.plugin.sqlmarking;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
