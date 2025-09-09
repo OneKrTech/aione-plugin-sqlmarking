@@ -32,6 +32,16 @@ public class SqlMarkingContext {
     private String userId;
 
     /**
+     * 分布式追踪标识符，用于跨服务追踪
+     */
+    private String pFinderId;
+
+    /**
+     * 链路追踪ID
+     */
+    private String traceId;
+
+    /**
      * 自定义染色信息
      */
     private ConcurrentHashMap<String, Object> customInfo;
@@ -49,6 +59,8 @@ public class SqlMarkingContext {
 
     /**
      * 获取当前线程的染色上下文
+     * 
+     * @return 当前线程的SqlMarkingContext实例，如果未设置则返回null
      */
     public static SqlMarkingContext getCurrentContext() {
         return CONTEXT_HOLDER.get();
@@ -56,6 +68,8 @@ public class SqlMarkingContext {
 
     /**
      * 设置当前线程的染色上下文
+     * 
+     * @param context 要设置的SqlMarkingContext实例
      */
     public static void setCurrentContext(SqlMarkingContext context) {
         CONTEXT_HOLDER.set(context);
@@ -70,6 +84,8 @@ public class SqlMarkingContext {
 
     /**
      * 创建新的染色上下文
+     * 
+     * @return 新创建的SqlMarkingContext实例
      */
     public static SqlMarkingContext create() {
         SqlMarkingContext context = new SqlMarkingContext();
@@ -79,6 +95,9 @@ public class SqlMarkingContext {
 
     /**
      * 创建带用户ID的染色上下文
+     * 
+     * @param userId 用户ID
+     * @return 新创建的SqlMarkingContext实例
      */
     public static SqlMarkingContext create(String userId) {
         SqlMarkingContext context = create();
@@ -88,6 +107,10 @@ public class SqlMarkingContext {
 
     /**
      * 添加自定义信息
+     * 
+     * @param key 自定义信息的键
+     * @param value 自定义信息的值
+     * @return 当前SqlMarkingContext实例，支持链式调用
      */
     public SqlMarkingContext addCustomInfo(String key, Object value) {
         if (customInfo == null) {
@@ -99,6 +122,9 @@ public class SqlMarkingContext {
 
     /**
      * 批量添加自定义信息
+     * 
+     * @param info 包含自定义信息的Map
+     * @return 当前SqlMarkingContext实例，支持链式调用
      */
     public SqlMarkingContext addCustomInfo(Map<String, Object> info) {
         if (info != null && !info.isEmpty()) {
@@ -112,6 +138,9 @@ public class SqlMarkingContext {
 
     /**
      * 获取自定义信息
+     * 
+     * @param key 自定义信息的键
+     * @return 对应的自定义信息值，如果不存在则返回null
      */
     public Object getCustomInfo(String key) {
         return customInfo != null ? customInfo.get(key) : null;
@@ -119,6 +148,8 @@ public class SqlMarkingContext {
 
     /**
      * 检查是否包含自定义信息
+     * 
+     * @return 如果包含自定义信息返回true，否则返回false
      */
     public boolean hasCustomInfo() {
         return customInfo != null && !customInfo.isEmpty();
@@ -126,6 +157,8 @@ public class SqlMarkingContext {
 
     /**
      * 获取自定义信息的大小
+     * 
+     * @return 自定义信息的数量
      */
     public int getCustomInfoSize() {
         return customInfo != null ? customInfo.size() : 0;
@@ -133,6 +166,9 @@ public class SqlMarkingContext {
 
     /**
      * 移除自定义信息
+     * 
+     * @param key 要移除的自定义信息的键
+     * @return 被移除的自定义信息值，如果不存在则返回null
      */
     public Object removeCustomInfo(String key) {
         return customInfo != null ? customInfo.remove(key) : null;
@@ -158,6 +194,11 @@ public class SqlMarkingContext {
 
     /**
      * 静态工具方法：在指定上下文中执行操作
+     * 
+     * @param <T> 返回值类型
+     * @param context 要使用的SqlMarkingContext实例
+     * @param supplier 要执行的操作
+     * @return 操作的返回值
      */
     public static <T> T executeWithContext(SqlMarkingContext context, java.util.function.Supplier<T> supplier) {
         SqlMarkingContext originalContext = getCurrentContext();
@@ -175,6 +216,9 @@ public class SqlMarkingContext {
 
     /**
      * 静态工具方法：在指定上下文中执行操作（无返回值）
+     * 
+     * @param context 要使用的SqlMarkingContext实例
+     * @param runnable 要执行的操作
      */
     public static void executeWithContext(SqlMarkingContext context, Runnable runnable) {
         SqlMarkingContext originalContext = getCurrentContext();
@@ -192,6 +236,9 @@ public class SqlMarkingContext {
 
     /**
      * 静态工具方法：为当前线程添加自定义信息
+     * 
+     * @param key 自定义信息的键
+     * @param value 自定义信息的值
      */
     public static void addCurrentCustomInfo(String key, Object value) {
         SqlMarkingContext context = getCurrentContext();
@@ -203,6 +250,8 @@ public class SqlMarkingContext {
 
     /**
      * 静态工具方法：为当前线程设置用户ID
+     * 
+     * @param userId 要设置的用户ID
      */
     public static void setCurrentUserId(String userId) {
         SqlMarkingContext context = getCurrentContext();
@@ -214,6 +263,8 @@ public class SqlMarkingContext {
 
     /**
      * 静态工具方法：获取当前线程的用户ID
+     * 
+     * @return 当前线程的用户ID，如果未设置则返回null
      */
     public static String getCurrentUserId() {
         SqlMarkingContext context = getCurrentContext();

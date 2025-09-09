@@ -10,13 +10,14 @@ import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.logging.log4j.util.Strings;
 
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * MyBatis SQL染色拦截器
- * 
+ * <p>
  * 功能特性：
  * 1. 轻量高效，对业务代码无侵入
  * 2. 支持SELECT、INSERT、UPDATE、DELETE等所有SQL语句
@@ -29,34 +30,32 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Slf4j
 @Intercepts({
-    @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
-    @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})
+        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
+        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})
 })
 public class SqlMarkingInterceptor implements Interceptor {
 
     /**
      * SQL染色配置
      * -- GETTER --
-     *  获取当前配置
+     * 获取当前配置
      * -- SETTER --
-     *  设置染色配置
-
-
+     * 设置染色配置
      */
     @Setter
     @Getter
     private SqlMarkingConfig config;
-    
+
     /**
      * 分布式追踪标识生成器
      */
     private final SqlMarkingIdGenerator idGenerator;
-    
+
     /**
      * SQL染色处理器
      */
     private final SqlMarkingProcessor processor;
-    
+
     /**
      * 执行计数器
      */
@@ -108,10 +107,10 @@ public class SqlMarkingInterceptor implements Interceptor {
 
             // 创建新的BoundSql对象，包含标记后的SQL
             BoundSql newBoundSql = new BoundSql(
-                mappedStatement.getConfiguration(),
-                markedSql,
-                boundSql.getParameterMappings(),
-                parameter
+                    mappedStatement.getConfiguration(),
+                    markedSql,
+                    boundSql.getParameterMappings(),
+                    parameter
             );
 
             // 复制原有的附加参数
@@ -127,7 +126,7 @@ public class SqlMarkingInterceptor implements Interceptor {
 
         } catch (Exception e) {
             log.error("SQL标记处理异常，使用原始SQL执行 statementId: {}, error: {}",
-                mappedStatement.getId(), e.getMessage(), e);
+                    mappedStatement.getId(), e.getMessage(), e);
             // 异常情况下使用原始SQL执行，确保业务不受影响
             return invocation.proceed();
         }
@@ -156,7 +155,7 @@ public class SqlMarkingInterceptor implements Interceptor {
      */
     private SqlMarkingInfo createMarkingInfo(MappedStatement mappedStatement, SqlCommandType sqlCommandType) {
         SqlMarkingInfo markingInfo = new SqlMarkingInfo();
-        
+
         // 设置基础信息
         markingInfo.setStatementId(mappedStatement.getId());
         markingInfo.setSqlCommandType(sqlCommandType);
@@ -165,21 +164,27 @@ public class SqlMarkingInterceptor implements Interceptor {
         // 生成分布式追踪标识
         markingInfo.setPFinderId(idGenerator.generatePFinderId());
         markingInfo.setTraceId(idGenerator.generateTraceId());
-        
+
         // 设置时间戳
         markingInfo.setTimestamp(System.currentTimeMillis());
-        
+
         // 获取自定义标记信息
         SqlMarkingContext context = SqlMarkingContext.getCurrentContext();
         if (context != null) {
             markingInfo.setCustomInfo(context.getCustomInfo());
             markingInfo.setThreadId(context.getThreadId());
             markingInfo.setUserId(context.getUserId());
+            if (Strings.isNotBlank(context.getTraceId())) {
+                markingInfo.setTraceId(context.getTraceId());
+            }
+            if (Strings.isNotBlank(context.getPFinderId())) {
+                markingInfo.setPFinderId(context.getPFinderId());
+            }
         } else {
             // 默认设置当前线程ID
             markingInfo.setThreadId(Thread.currentThread().getId());
         }
-        
+
         return markingInfo;
     }
 
@@ -188,12 +193,12 @@ public class SqlMarkingInterceptor implements Interceptor {
      */
     private MappedStatement copyMappedStatement(MappedStatement original, BoundSql newBoundSql) {
         MappedStatement.Builder builder = new MappedStatement.Builder(
-            original.getConfiguration(),
-            original.getId(),
-            new SqlMarkedSource(original.getConfiguration(), newBoundSql.getSql(), newBoundSql.getParameterMappings()),
-            original.getSqlCommandType()
+                original.getConfiguration(),
+                original.getId(),
+                new SqlMarkedSource(original.getConfiguration(), newBoundSql.getSql(), newBoundSql.getParameterMappings()),
+                original.getSqlCommandType()
         );
-        
+
         builder.resource(original.getResource());
         builder.fetchSize(original.getFetchSize());
         builder.timeout(original.getTimeout());
@@ -211,7 +216,7 @@ public class SqlMarkingInterceptor implements Interceptor {
         builder.useCache(original.isUseCache());
         builder.cache(original.getCache());
         builder.parameterMap(original.getParameterMap());
-        
+
         return builder.build();
     }
 
@@ -220,13 +225,13 @@ public class SqlMarkingInterceptor implements Interceptor {
      */
     private void logMarkingInfo(String statementId, String originalSql, String markedSql, SqlMarkingInfo markingInfo) {
         log.debug("SQL标记执行 - StatementId: {}, PFinderId: {}, TraceId: {}, ExecutionId: {}, ThreadId: {}",
-            statementId,
-            markingInfo.getPFinderId(),
-            markingInfo.getTraceId(),
-            markingInfo.getExecutionId(),
-            markingInfo.getThreadId()
+                statementId,
+                markingInfo.getPFinderId(),
+                markingInfo.getTraceId(),
+                markingInfo.getExecutionId(),
+                markingInfo.getThreadId()
         );
-        
+
         if (config.isVerboseLogging()) {
             log.debug("原始SQL: {}", originalSql.replaceAll("\\s+", " ").trim());
             log.debug("标记SQL: {}", markedSql.replaceAll("\\s+", " ").trim());
@@ -258,6 +263,8 @@ public class SqlMarkingInterceptor implements Interceptor {
 
     /**
      * 获取执行统计信息
+     * 
+     * @return 当前执行次数
      */
     public long getExecutionCount() {
         return executionCounter.get();

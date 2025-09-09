@@ -97,6 +97,9 @@ public class SqlMarkingProcessor {
 
     /**
      * 检查SQL是否已经被标记
+     * 
+     * @param sql 要检查的SQL语句
+     * @return 如果SQL已被标记返回true，否则返回false
      */
     public boolean isAlreadyMarked(String sql) {
         if (sql == null) {
@@ -107,6 +110,9 @@ public class SqlMarkingProcessor {
 
     /**
      * 从标记的SQL中提取原始SQL
+     * 
+     * @param markedSql 标记后的SQL语句
+     * @return 提取出的原始SQL语句
      */
     public String extractOriginalSql(String markedSql) {
         if (markedSql == null || !isAlreadyMarked(markedSql)) {
@@ -133,6 +139,9 @@ public class SqlMarkingProcessor {
 
     /**
      * 从标记的SQL中提取标记信息
+     * 
+     * @param markedSql 标记后的SQL语句
+     * @return 提取出的标记信息字符串，如果没有标记信息则返回null
      */
     public String extractMarkingInfo(String markedSql) {
         if (markedSql == null || !isAlreadyMarked(markedSql)) {
@@ -158,6 +167,9 @@ public class SqlMarkingProcessor {
     /**
      * 验证标记后的SQL语法正确性
      * 主要检查注释格式是否正确
+     * 
+     * @param markedSql 要验证的标记后SQL语句
+     * @return 如果SQL语法正确返回true，否则返回false
      */
     public boolean validateMarkedSql(String markedSql) {
         if (markedSql == null || markedSql.trim().isEmpty()) {
@@ -175,6 +187,8 @@ public class SqlMarkingProcessor {
 
     /**
      * 设置配置
+     * 
+     * @param config 要设置的SqlMarkingConfig配置对象
      */
     public void setConfig(SqlMarkingConfig config) {
         this.config = config;
@@ -182,6 +196,8 @@ public class SqlMarkingProcessor {
 
     /**
      * 获取配置
+     * 
+     * @return 当前的SqlMarkingConfig配置对象
      */
     public SqlMarkingConfig getConfig() {
         return config;

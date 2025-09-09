@@ -51,6 +51,8 @@ public class SqlMarkingIdGenerator {
     /**
      * 生成PFinderId
      * 格式: {machineId}-{processId}-{timestamp}-{counter}
+     * 
+     * @return 生成的PFinderId字符串
      */
     public String generatePFinderId() {
         long counter = pFinderIdCounter.incrementAndGet();
@@ -63,6 +65,8 @@ public class SqlMarkingIdGenerator {
     /**
      * 生成TraceId
      * 格式: {machineId}{processId}{timestamp}{counter}
+     * 
+     * @return 生成的TraceId字符串
      */
     public String generateTraceId() {
         long counter = traceIdCounter.incrementAndGet();
@@ -75,6 +79,8 @@ public class SqlMarkingIdGenerator {
     /**
      * 生成短格式的PFinderId（用于简化显示）
      * 格式: {machineId}-{counter}
+     * 
+     * @return 生成的短格式PFinderId字符串
      */
     public String generateShortPFinderId() {
         long counter = pFinderIdCounter.incrementAndGet();
@@ -127,6 +133,8 @@ public class SqlMarkingIdGenerator {
 
     /**
      * 获取生成器统计信息
+     * 
+     * @return 包含生成器统计信息的字符串
      */
     public String getStatistics() {
         return String.format("SqlMarkingIdGenerator[machineId=%s, processId=%s, pFinderCount=%d, traceCount=%d]",
@@ -143,6 +151,8 @@ public class SqlMarkingIdGenerator {
 
     /**
      * 获取机器标识
+     * 
+     * @return 机器标识字符串
      */
     public String getMachineId() {
         return machineId;
@@ -150,6 +160,8 @@ public class SqlMarkingIdGenerator {
 
     /**
      * 获取进程标识
+     * 
+     * @return 进程标识字符串
      */
     public String getProcessId() {
         return processId;

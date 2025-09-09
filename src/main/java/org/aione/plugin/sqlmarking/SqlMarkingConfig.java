@@ -93,6 +93,7 @@ public class SqlMarkingConfig {
 
     /**
      * 从Properties加载配置
+     * @param properties 包含配置信息的Properties对象
      */
     public void loadFromProperties(Properties properties) {
         if (properties.containsKey("enabled")) {
@@ -144,14 +145,16 @@ public class SqlMarkingConfig {
 
     /**
      * 验证配置的有效性
+     * @return 配置是否有效
      */
     public boolean isValid() {
-        return markSuffix != null && markSuffix != null &&
+        return markPrefix != null && markSuffix != null &&
                 infoSeparator != null && maxCustomInfoLength > 0;
     }
 
     /**
      * 获取配置摘要信息
+     * @return 配置摘要信息
      */
     public String getConfigSummary() {
         return String.format("SqlMarkingConfig[enabled=%s, select=%s, insert=%s, update=%s, delete=%s, debug=%s]",

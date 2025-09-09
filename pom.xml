@@ -7,7 +7,7 @@
     <name>aione-plugin-sqlmarking</name>
     <groupId>org.ai-one</groupId>
     <artifactId>aione-plugin-sqlmarking</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
 
     <description>

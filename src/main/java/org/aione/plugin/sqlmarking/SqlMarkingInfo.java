@@ -62,6 +62,8 @@ public class SqlMarkingInfo {
 
     /**
      * 获取简化的StatementId（去除包名前缀）
+     * 
+     * @return 简化的StatementId，如果statementId为null则返回null
      */
     public String getSimpleStatementId() {
         if (statementId == null) {
@@ -73,6 +75,8 @@ public class SqlMarkingInfo {
 
     /**
      * 获取SQL命令类型的简短名称
+     * 
+     * @return SQL命令类型名称，如果sqlCommandType为null则返回"UNKNOWN"
      */
     public String getSqlCommandTypeName() {
         return sqlCommandType != null ? sqlCommandType.name() : "UNKNOWN";
@@ -80,6 +84,8 @@ public class SqlMarkingInfo {
 
     /**
      * 检查是否包含自定义信息
+     * 
+     * @return 如果包含自定义信息返回true，否则返回false
      */
     public boolean hasCustomInfo() {
         return customInfo != null && !customInfo.isEmpty();
@@ -87,6 +93,8 @@ public class SqlMarkingInfo {
 
     /**
      * 获取自定义信息的字符串表示
+     * 
+     * @return 自定义信息的字符串表示，如果没有自定义信息则返回空字符串
      */
     public String getCustomInfoString() {
         if (!hasCustomInfo()) {
@@ -105,6 +113,9 @@ public class SqlMarkingInfo {
 
     /**
      * 添加自定义信息
+     * 
+     * @param key 自定义信息的键
+     * @param value 自定义信息的值
      */
     public void addCustomInfo(String key, Object value) {
         if (customInfo == null) {
@@ -115,6 +126,8 @@ public class SqlMarkingInfo {
 
     /**
      * 获取染色信息的完整字符串表示
+     * 
+     * @return 包含所有染色信息的完整字符串
      */
     public String getFullInfoString() {
         StringBuilder sb = new StringBuilder();
@@ -171,6 +184,8 @@ public class SqlMarkingInfo {
 
     /**
      * 获取简化的染色信息字符串
+     * 
+     * @return 包含关键染色信息的简化字符串
      */
     public String getSimpleInfoString() {
         StringBuilder sb = new StringBuilder();
