@@ -1,4 +1,4 @@
-package org.aione.plugin.sqlmarking;
+package org.aione.sqlmarking;
 
 import lombok.extern.slf4j.Slf4j;
 

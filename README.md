@@ -1,4 +1,4 @@
-# aione-plugin-sqlmarking
+# aione-sqlmarking
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Java](https://img.shields.io/badge/Java-8+-green.svg)](https://www.oracle.com/java/)
@@ -32,7 +32,7 @@
 ```xml
 <dependency>
     <groupId>org.ai-one</groupId>
-    <artifactId>aione-plugin-sqlmarking</artifactId>
+    <artifactId>aione-sqlmarking</artifactId>
     <version>[使用仓库最新版本]</version>
     <!-- https://central.sonatype.com/artifact/org.ai-one/aione-plugin-sqlmarking -->
 </dependency>

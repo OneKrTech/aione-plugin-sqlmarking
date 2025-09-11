@@ -1,4 +1,4 @@
-package org.aione.plugin.sqlmarking.example;
+package org.aione.sqlmarking.example;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

@@ -1,8 +1,8 @@
-package org.aione.plugin.sqlmarking.example.mapper;
+package org.aione.sqlmarking.example.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
-import org.aione.plugin.sqlmarking.example.entity.User;
+import org.aione.sqlmarking.example.entity.User;
 
 import java.util.List;
 

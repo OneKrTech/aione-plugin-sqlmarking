@@ -1,12 +1,12 @@
-package org.aione.plugin.sqlmarking.example.controller;
+package org.aione.sqlmarking.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.aione.plugin.sqlmarking.SqlMarkingConfig;
-import org.aione.plugin.sqlmarking.SqlMarkingContext;
-import org.aione.plugin.sqlmarking.SqlMarkingInterceptor;
-import org.aione.plugin.sqlmarking.example.entity.User;
-import org.aione.plugin.sqlmarking.example.service.UserService;
+import org.aione.sqlmarking.SqlMarkingConfig;
+import org.aione.sqlmarking.SqlMarkingContext;
+import org.aione.sqlmarking.SqlMarkingInterceptor;
+import org.aione.sqlmarking.example.entity.User;
+import org.aione.sqlmarking.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

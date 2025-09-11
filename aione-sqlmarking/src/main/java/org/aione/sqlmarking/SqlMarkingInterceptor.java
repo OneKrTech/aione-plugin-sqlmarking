@@ -1,4 +1,4 @@
-package org.aione.plugin.sqlmarking;
+package org.aione.sqlmarking;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +8,10 @@ import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.*;
+import org.apache.ibatis.reflection.DefaultReflectorFactory;
+import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.reflection.factory.DefaultObjectFactory;
+import org.apache.ibatis.reflection.wrapper.DefaultObjectWrapperFactory;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.logging.log4j.util.Strings;
@@ -106,24 +110,12 @@ public class SqlMarkingInterceptor implements Interceptor {
                 logMarkingInfo(mappedStatement.getId(), originalSql, markedSql, markingInfo);
             }
 
-            // 创建新的BoundSql对象，包含标记后的SQL
-            BoundSql newBoundSql = new BoundSql(
-                    mappedStatement.getConfiguration(),
-                    markedSql,
-                    boundSql.getParameterMappings(),
-                    parameter
-            );
-
-            // 复制原有的附加参数
-            copyAdditionalParameters(boundSql, newBoundSql);
-
-            // 创建新的MappedStatement
-            MappedStatement newMappedStatement = copyMappedStatement(mappedStatement, newBoundSql);
-            args[0] = newMappedStatement;
+            Field field = boundSql.getClass().getDeclaredField("sql");
+            field.setAccessible(true);
+            field.set(boundSql, markedSql);
 
             // 执行标记后的SQL
             return invocation.proceed();
-
         } catch (Exception e) {
             log.error("SQL标记处理异常，使用原始SQL执行 statementId: {}, error: {}",
                     mappedStatement.getId(), e.getMessage(), e);

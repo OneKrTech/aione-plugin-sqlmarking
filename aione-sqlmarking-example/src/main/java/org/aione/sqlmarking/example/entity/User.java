@@ -1,4 +1,4 @@
-package org.aione.plugin.sqlmarking.example.entity;
+package org.aione.sqlmarking.example.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

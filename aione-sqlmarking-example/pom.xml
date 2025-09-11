@@ -7,7 +7,7 @@
     <name>aione-sqlmarking-example</name>
     <groupId>org.ai-one</groupId>
     <artifactId>aione-sqlmarking-example</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
@@ -57,7 +57,7 @@
 
         <dependency>
             <groupId>org.ai-one</groupId>
-            <artifactId>aione-plugin-sqlmarking</artifactId>
+            <artifactId>aione-sqlmarking</artifactId>
             <version>1.0.3-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
