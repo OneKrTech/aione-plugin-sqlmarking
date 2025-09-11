@@ -48,4 +48,8 @@ public interface UserMapper extends BaseMapper<User> {
      * 复杂查询 - 根据年龄范围查询用户
      */
     @Select("SELECT * FROM test_user WHERE age BETWEEN #{minAge} AND #{maxAge} ORDER BY age")
-    List<User> findByAgeRange(@Param("minAge") Integer minAge, @Param("maxAge") Integer maxAge);}
+    List<User> findByAgeRange(@Param("minAge") Integer minAge, @Param("maxAge") Integer maxAge);
+
+    List<User> findByIds(@Param("ids") List<Long> ids);
+
+}

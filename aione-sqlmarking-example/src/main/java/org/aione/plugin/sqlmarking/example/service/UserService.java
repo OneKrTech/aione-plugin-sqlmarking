@@ -59,6 +59,10 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         return baseMapper.findByAgeRange(minAge, maxAge);
     }
 
+    public List<User> findByIds(List<Long> ids){
+        return baseMapper.findByIds(ids);
+    }
+
     /**
      * 条件查询活跃用户
      */

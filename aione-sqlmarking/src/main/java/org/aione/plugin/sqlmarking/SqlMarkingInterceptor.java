@@ -12,6 +12,7 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.logging.log4j.util.Strings;
 
+import java.lang.reflect.Field;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -114,21 +115,39 @@ public class SqlMarkingInterceptor implements Interceptor {
             );
 
             // 复制原有的附加参数
-//            copyAdditionalParameters(boundSql, newBoundSql);
+            copyAdditionalParameters(boundSql, newBoundSql);
 
             // 创建新的MappedStatement
             MappedStatement newMappedStatement = copyMappedStatement(mappedStatement, newBoundSql);
             args[0] = newMappedStatement;
 
             // 执行标记后的SQL
-            Object proceed = invocation.proceed();
-            return proceed;
+            return invocation.proceed();
 
         } catch (Exception e) {
             log.error("SQL标记处理异常，使用原始SQL执行 statementId: {}, error: {}",
                     mappedStatement.getId(), e.getMessage(), e);
             // 异常情况下使用原始SQL执行，确保业务不受影响
             return invocation.proceed();
+        }
+    }
+
+    private void copyAdditionalParameters(BoundSql boundSql, BoundSql newBoundSql) {
+        // 拷贝 boundSql 的 AdditionalParameters 到 newBoundSql 中
+        try {
+            // 通过反射获取 additionalParameters 字段
+            Field additionalParametersField = BoundSql.class.getDeclaredField("additionalParameters");
+            additionalParametersField.setAccessible(true);
+
+            // 获取原始 BoundSql 的 additionalParameters
+            Object additionalParameters = additionalParametersField.get(boundSql);
+
+            if (additionalParameters != null) {
+                // 设置到新的 BoundSql 中
+                additionalParametersField.set(newBoundSql, additionalParameters);
+            }
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            log.warn("无法通过反射拷贝 AdditionalParameters: {}", e.getMessage());
         }
     }
 
@@ -263,7 +282,7 @@ public class SqlMarkingInterceptor implements Interceptor {
 
     /**
      * 获取执行统计信息
-     * 
+     *
      * @return 当前执行次数
      */
     public long getExecutionCount() {

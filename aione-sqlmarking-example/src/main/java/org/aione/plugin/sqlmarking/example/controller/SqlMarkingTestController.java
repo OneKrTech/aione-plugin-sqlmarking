@@ -2,10 +2,10 @@ package org.aione.plugin.sqlmarking.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.aione.plugin.sqlmarking.SqlMarkingConfig;
+import org.aione.plugin.sqlmarking.SqlMarkingContext;
+import org.aione.plugin.sqlmarking.SqlMarkingInterceptor;
 import org.aione.plugin.sqlmarking.example.entity.User;
-import org.aione.plugin.sqlmarking.example.plugin.sqlmarking.SqlMarkingConfig;
-import org.aione.plugin.sqlmarking.example.plugin.sqlmarking.SqlMarkingContext;
-import org.aione.plugin.sqlmarking.example.plugin.sqlmarking.SqlMarkingInterceptor;
 import org.aione.plugin.sqlmarking.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * MyBatis Plus SQL标记功能验证Controller
@@ -150,6 +151,9 @@ public class SqlMarkingTestController {
             // 执行复杂查询
             List<User> usersByAge = userService.findByAgeRange(20, 35);
             result.put("usersByAgeCount", usersByAge.size());
+
+            List<User> usersByIds = userService.findByIds(allUsers.stream().map(c -> c.getId()).collect(Collectors.toList()));
+            result.put("usersByIds", usersByIds.size());
 
             long finalCount = sqlMarkingInterceptor.getExecutionCount();
             boolean complexQueryIntercepted = finalCount > afterCustomCount;

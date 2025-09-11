@@ -3,7 +3,6 @@ package org.aione.plugin.sqlmarking;
 import lombok.Data;
 import org.apache.ibatis.mapping.SqlCommandType;
 
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**

@@ -3,9 +3,9 @@ package org.aione.plugin.sqlmarking;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,13 +13,12 @@ import org.springframework.context.annotation.Configuration;
 /**
  * SQL染色插件自动配置类
  * 使用BeanPostProcessor避免循环依赖问题
- * 
+ *
  * @author Billy
  */
 @Slf4j
 @Configuration
 @ConditionalOnClass({SqlSessionFactory.class})
-@ConditionalOnProperty(prefix = "mybatis.sql-marking", name = "enabled", havingValue = "true", matchIfMissing = true)
 @EnableConfigurationProperties(SqlMarkingConfig.class)
 public class SqlMarkingAutoConfiguration {
 
@@ -37,10 +36,12 @@ public class SqlMarkingAutoConfiguration {
             @Override
             public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
                 if (bean instanceof SqlSessionFactory) {
-                    SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) bean;
-                    sqlSessionFactory.getConfiguration().addInterceptor(sqlMarkingInterceptor);
-                    log.info("SQL染色拦截器已添加到SqlSessionFactory: {} ({})",
-                        sqlSessionFactory.getClass().getSimpleName(), beanName);
+                    if (sqlMarkingInterceptor.getConfig().isEnabled()) {
+                        SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) bean;
+                        sqlSessionFactory.getConfiguration().addInterceptor(sqlMarkingInterceptor);
+                        log.info("SQL染色拦截器已添加到SqlSessionFactory: {} ({})",
+                                sqlSessionFactory.getClass().getSimpleName(), beanName);
+                    }
                 }
                 return bean;
             }
